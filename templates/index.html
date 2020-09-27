@@ -1,115 +1,32 @@
 <html>
+  <head>
+    <style>
+      body {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
 
-<head>
-  <style>
-    body {
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
+      canvas {
+        border: 1px solid black;
+        width: 300px;
+        height: 300px;
+      }
+    </style>
+  </head>
 
-    canvas {
-      border: 1px solid black;
-      width: 305px;
-      height: 300px;
-    }
-
-    button {
-      margin-top: 10px;
-    }
-  </style>
-</head>
-
-<body>
-  <div>
-    Draw A, B, C, D or E
-  </div>
-  <canvas></canvas>
-  <div>
-    I think you are drawing: 
+  <body>
+    <div>
+      Draw A, B, C, D or E
+    </div>
+    <canvas></canvas>
+    <div>
+      I think you are drawing: 
       <span data-prediction>...</span>
-  </div>
+    </div>
 
-  <script>
-    var isdrawing = false;
-    var cols = 20;
-    var rows = 20;
-    var colors = [];
-
-    for (var c = 0; c < cols; c++) {
-      colors[c] = [];
-      for (var r = 0; r < rows; r++) {
-        colors[c][r] = 255;
-      }
-    }
-
-    var canvas = document.querySelector('canvas');
-    var label = document.querySelector('span[data-prediction]');
-    var bbox = canvas.getBoundingClientRect();
-    canvas.width = bbox.width;
-    canvas.height = bbox.height;
-    var cell_width = canvas.width / cols;
-    var cell_height = canvas.height / rows;
-
-    var context = canvas.getContext('2d');
-
-    [['mouseup', false], ['mousedown', true]]
-      .forEach(function (event) {
-        canvas.addEventListener(event[0], function () {
-          isdrawing = event[1];
-        });
-      });
-
-    canvas.addEventListener('mousemove', function (event) {
-      if (!isdrawing) {
-        return;
-      }
-      var bbox = canvas.getBoundingClientRect();
-      var offset_y = event.clientY - bbox.top;
-      var offset_x = event.clientX - bbox.left;
-      var row_pixel = offset_y - (offset_y % cell_height);
-      var col_pixel = offset_x - (offset_x % cell_width);
-      var row = parseInt(row_pixel / cell_height, 10);
-      var col = parseInt(col_pixel / cell_width, 10);
-      var color = colors[row][col] = Math.max(colors[row][col] - 180, 0);
-
-      context.fillStyle = `rgb(${color},${color},${color})`;
-      context.fillRect(col_pixel, row_pixel, cell_width, cell_height);
-    });
-
-    setInterval(function () {
-      var mcols = 60
-      var mrows = 60
-      var matrix = [];
-
-      var rcol = mcols / cols;
-      var rrow = mrows / rows;
-
-      for(var i = 0; i < mcols; i++) {
-        matrix[i] = [];
-        for(var l = 0; l < mrows; l++) {
-          matrix[i][l] = colors[Math.floor(i / rcol)][Math.floor(l / rrow)];
-        }
-      }
-
-      var data = new URLSearchParams();
-      data.append(`symbol`, [].concat.apply([], matrix).join('|'));
-
-      fetch('/check', {
-        method: 'POST',
-        body: data
-      }).then(
-        function (response) { return response.json(); }
-      ).then(
-        function (data) { 
-          console.log(data);
-          label.textContent = data.response[0];
-        }
-      )
-    }, 5000);
-  </script>
-</body>
-
+    <script src="/static/index.js"></script>
+  </body>
 </html>
