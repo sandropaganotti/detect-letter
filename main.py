@@ -10,8 +10,6 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 clf_file = open(dir_path + '/model/forest_clf_1.pkl','rb')
 model = pickle.load(clf_file)
 
-# is_symbol = model.predict([np.zeros(60 * 61)])
-
 @app.route("/")
 def index():
     return render_template('index.html')
