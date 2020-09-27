@@ -1,7 +1,9 @@
 # predict-letter
  a web based letter detection system, [try it on heroku](https://detect-letter.herokuapp.com/static/letters.gif).
 
-<img src="https://detect-letter.herokuapp.com/static/letters.gif" align="center"></img>
+<p align="center">
+<img src="https://detect-letter.herokuapp.com/static/letters.gif"></img>
+</p>
 
 ## Why?
 
