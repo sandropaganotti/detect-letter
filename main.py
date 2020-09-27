@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import pickle
 import os
 import numpy as np
@@ -16,9 +16,9 @@ model = pickle.load(clf_file)
 def index():
     return render_template('index.html')
 
-@app.route("/check/<string:symbol>")
-def check(symbol):
-    symbol = np.array([int(s) for s in symbol.split('|')])
+@app.route("/check", methods = ['POST'])
+def check():
+    symbol = np.array([int(s) for s in request.form['symbol'].split('|')])
     return jsonify(
         {"response": model.predict([symbol]).tolist()}
     )

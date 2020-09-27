@@ -94,9 +94,13 @@
         }
       }
 
-      fetch('/check/' +
-        [].concat.apply([], matrix).join('|')
-      ).then(
+      var data = new URLSearchParams();
+      data.append(`symbol`, [].concat.apply([], matrix).join('|'));
+
+      fetch('/check', {
+        method: 'POST',
+        body: data
+      }).then(
         function (response) { return response.json(); }
       ).then(
         function (data) { 
