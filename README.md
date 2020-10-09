@@ -1,5 +1,5 @@
 # predict-letter
- a web based letter detection system, [try it on heroku](https://detect-letter.herokuapp.com/static/letters.gif).
+ a web based letter detection system, [try it on heroku](https://detect-letter.herokuapp.com).
 
 <p align="center">
 <img src="https://detect-letter.herokuapp.com/static/letters.gif"></img>
